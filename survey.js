@@ -18,8 +18,8 @@ const SURVEY = [
     opts: [
       { id: "quran", t: "الاسم والأثر القرآني (الطيبات)" },
       { id: "cheap", t: "أرخص وأبسط من عيادة أو حمية مدفوعة" },
-      { id: "weight", t: "خسّة أو تحسّن ذاتي لاحظته" },
-      { id: "diabetes", t: "السكري أو الضغط أو مشاكل الهضم" },
+      { id: "weight", t: "نزول وزن أو تحسّن لاحظته بنفسك" },
+      { id: "diabetes", t: "السكري أو الضغط أو اضطرابات الهضم" },
       { id: "trust", t: "ثقة بالدكتور ضياء أو بمحتواه" },
       { id: "peer", t: "توصية قريب أو مؤثر" },
       { id: "na", t: "لا ينطبق — لم أطبّقه" }
@@ -43,7 +43,7 @@ const SURVEY = [
     multi: false,
     scoreKey: "gap",
     opts: [
-      { id: "2h", t: "فاصل ساعتين على الأقل بين نهاية وجبة وأي أكل أو شراب سعري بعده", score: 1 },
+      { id: "2h", t: "فاصل ساعتين على الأقل بعد الوجبة قبل أي أكل أو شراب فيه سعرات", score: 1 },
       { id: "fast", t: "صيام 16 ساعة يومياً", score: 0 },
       { id: "none", t: "لا توجد قاعدة زمنية", score: 0 },
       { id: "dk", t: "لا أعرف", score: 0 }
@@ -51,11 +51,11 @@ const SURVEY = [
   },
   {
     id: "allowed",
-    q: "أيّ مما يلي يُعدّ عادةً ضمن «المسموح» في نسخ النظام الشائعة؟",
+    q: "أيّ مما يلي يُعدّ عادة ضمن المسموح في النسخ الشائعة؟",
     multi: true,
     scoreKey: "allowed",
     opts: [
-      { id: "rice", t: "أرز بسمتي / أرز أبيض", score: 1 },
+      { id: "rice", t: "أرز بسمتي أو أرز أبيض", score: 1 },
       { id: "potato", t: "بطاطس", score: 1 },
       { id: "dates", t: "تمر", score: 1 },
       { id: "ghee", t: "سمن بلدي أو زبدة طبيعية", score: 1 },
@@ -65,7 +65,7 @@ const SURVEY = [
   },
   {
     id: "banned",
-    q: "أيّ مما يلي يُستبعد عادةً في النظام؟",
+    q: "أيّ مما يلي يُستبعد عادة في النظام؟",
     multi: true,
     scoreKey: "banned",
     opts: [
@@ -83,7 +83,7 @@ const SURVEY = [
     scoreKey: "insulin",
     opts: [
       { id: "stop", t: "أوقف الإنسولين فوراً واتبع القائمة فقط", score: -2 },
-      { id: "keep", t: "لا توقف الدواء من نفسك؛ أي تغيير تحت إشراف طبيبك", score: 2 },
+      { id: "keep", t: "لا توقف الدواء من تلقاء نفسك؛ أي تغيير مع طبيبك", score: 2 },
       { id: "half", t: "خفّض الجرعة للنصف بلا مراجعة", score: -1 },
       { id: "dk", t: "لا أعرف", score: 0 }
     ]
@@ -95,7 +95,7 @@ const SURVEY = [
     opts: [
       { id: "dm1", t: "سكري نوع 1 أو معتمد على إنسولين" },
       { id: "dm2", t: "سكري نوع 2" },
-      { id: "kidney", t: "كلى / غسيل" },
+      { id: "kidney", t: "كلى أو غسيل كلوي" },
       { id: "heart", t: "قلب أو ضغط" },
       { id: "none", t: "لا شيء مما سبق / أفضل عدم الإفصاح" }
     ]
@@ -104,7 +104,6 @@ const SURVEY = [
 
 function scoreSurvey(answers) {
   let pts = 0, max = 0;
-  const detail = [];
   SURVEY.forEach((q) => {
     if (!q.scoreKey) return;
     const picked = answers[q.id] || [];
@@ -132,76 +131,75 @@ function buildAdvice(answers, sc) {
   const insulinAns = (answers.insulin || [])[0];
   const lines = [];
 
-  lines.push(`<p class="score-line"><strong>نسبة مطابقة فهمك لما يُنسب للنص الشائع:</strong> ${sc.pct}٪ <span class="mute">(${sc.pts}/${sc.max})</span></p>`);
+  lines.push('<p class="score-line"><strong>نسبة مطابقة فهمك لما يُنسب للنص الشائع:</strong> ' + sc.pct + '٪ <span class="mute">(' + sc.pts + '/' + sc.max + ')</span></p>');
 
   if (sc.pct >= 75) {
-    lines.push("<p>فهمك قريب من الركائز المتداولة: وجبتان، فاصل ساعتين، أرز/بطاطس/تمر/سمن، واستبعاد الدجاج والبيض والبقول في كثير من النسخ.</p>");
+    lines.push('<p>فهمك قريب من الركائز المتداولة: وجبتان، فاصل ساعتين، أرز وبطاطس وتمر وسمن، واستبعاد الدجاج والبيض والبقول في كثير من النسخ.</p>');
   } else if (sc.pct >= 40) {
-    lines.push("<p>فهم جزئي. النسخ المنشورة تختلف؛ ركّز على: لا توقف دواءً موصوفاً، والفاصل الزمني بين الوجبات ليس بديلاً عن العلاج.</p>");
+    lines.push('<p>فهم جزئي. النسخ المنشورة تختلف. الأهم: لا توقف دواءً موصوفاً، والفاصل بين الوجبات ليس بديلاً عن العلاج.</p>');
   } else {
-    lines.push("<p>المطابقة ضعيفة مع النص الشائع. قبل أي تطبيق: راجع مصادرك، ولا تعتمد على ملخصات مجموعات أو مقاطع قصيرة.</p>");
+    lines.push('<p>المطابقة ضعيفة مع النص الشائع. قبل أي تطبيق راجع مصادرك، ولا تعتمد على ملخصات مجموعات أو مقاطع قصيرة.</p>');
   }
 
-  if (why.length && !why.includes("na")) {
+  if (why.length && !why.includes('na')) {
     const map = {
-      quran: "الجانب الاسمي/الديني قوي في الانتشار، لكنه لا يُثبِت سلامة القائمة طبياً.",
-      cheap: "التكلفة المنخفضة تفسّر الشعبية؛ الرخيص لا يعني آمناً لكل حالة.",
-      weight: "تحسّن ذاتي قد يأتي من تقليل المصنّعات أو تقليل الوجبات، لا من «قاعدة الساعتين» وحدها.",
-      diabetes: "السكري يحتاج متابعة مخبرية ودوائية؛ أي حمية تُدار مع طبيبك لا بدلًا عنه.",
-      trust: "الثقة بالشخص لا تغني عن دليل سريري مضبوط على الحزمة كاملة.",
-      peer: "توصية المحيط شائعة؛ القرار الطبي يبقى فردياً ومع طبيب.",
+      quran: 'الجانب الاسمي والديني قوي في الانتشار، لكنه لا يثبت سلامة القائمة طبياً.',
+      cheap: 'التكلفة المنخفضة تفسّر الشعبية؛ الرخيص لا يعني آمناً لكل حالة.',
+      weight: 'تحسّن ذاتي قد يأتي من تقليل المصنّعات أو تقليل عدد الوجبات، لا من قاعدة الساعتين وحدها.',
+      diabetes: 'السكري يحتاج متابعة مخبرية ودوائية؛ أي حمية تُدار مع طبيبك لا بدلاً عنه.',
+      trust: 'الثقة بالشخص لا تغني عن دليل سريري على الحزمة كاملة.',
+      peer: 'توصية المحيط شائعة؛ القرار الطبي يبقى فردياً ومع طبيب.'
     };
-    lines.push("<p><strong>أسباب ذكرتَها:</strong></p><ul>" + why.filter((id) => map[id]).map((id) => `<li>${map[id]}</li>`).join("") + "</ul>");
+    const items = why.filter((id) => map[id]).map((id) => '<li>' + map[id] + '</li>').join('');
+    if (items) lines.push('<p><strong>أسباب ذكرتها:</strong></p><ul>' + items + '</ul>');
   }
 
-  lines.push("<p><strong>نصيحة مبنية على تحليل Congress+ (بوابات الخطر):</strong></p><ul>");
-  lines.push("<li><strong>أحمر — ارفض فوراً:</strong> إيقاف الإنسولين أو الغسيل أو العلاج الكيماوي أو أي دواء مزمن من تلقاء نفسك. وزارة الصحة السعودية حذّرت من إيقاف الإنسولين بعد حالات عناية مركزة.</li>");
-  lines.push("<li><strong>أصفر — بحذر ومتابعة:</strong> تضييق قائمة الطعام مع الإبقاء على الدواء، ومراجعة تحاليل خلال أسابيع (سكر صائم/تراكمي، وظائف كلى إن لزم).</li>");
-  lines.push("<li><strong>أخضر — أقل خطراً نسبياً:</strong> تقليل المشروبات الغازية والوجبات السريعة مع الإبقاء على الخضار المسموحة عند طبيبك وعلى العلاج.</li>");
-  lines.push("</ul>");
+  lines.push('<p><strong>نصيحة مبنية على بوابات Congress+:</strong></p><ul>');
+  lines.push('<li><strong>أحمر — ارفض فوراً:</strong> إيقاف الإنسولين أو الغسيل الكلوي أو العلاج الكيماوي أو أي دواء مزمن من تلقاء نفسك. وزارة الصحة السعودية حذّرت من إيقاف الإنسولين بعد رصد حالات عناية مركزة.</li>');
+  lines.push('<li><strong>أصفر — بحذر ومتابعة:</strong> تضييق قائمة الطعام مع الإبقاء على الدواء، ومراجعة تحاليل خلال أسابيع (سكر صائم أو تراكمي، ووظائف كلى إن لزم).</li>');
+  lines.push('<li><strong>أخضر — أقل خطراً نسبياً:</strong> تقليل المشروبات الغازية والوجبات السريعة مع الإبقاء على ما يوصي به طبيبك من خضار وعلاج.</li>');
+  lines.push('</ul>');
 
-  if (health.includes("dm1") || insulinAns === "stop") {
-    lines.push("<p class="warn">تنبيه عالٍ: السكري المعتمد على إنسولين أو قرار إيقاف الإنسولين دون إشراف = خطر حماض كيتوني ومضاعفات حادة. لا تُجرّب القائمة كبديل للدواء.</p>");
-  } else if (health.includes("dm2")) {
-    lines.push("<p class="warn">سكري نوع 2: أي تغيير غذائي يُنسَّق مع طبيبك؛ راقب السكر ولا تخفّض الجرعات وحدك.</p>");
+  if (health.includes('dm1') || insulinAns === 'stop') {
+    lines.push('<p class="warn">تنبيه عالٍ: السكري المعتمد على إنسولين أو قرار إيقاف الإنسولين دون إشراف = خطر حماض كيتوني ومضاعفات حادة. لا تجرّب القائمة بديلاً عن الدواء.</p>');
+  } else if (health.includes('dm2')) {
+    lines.push('<p class="warn">سكري نوع 2: أي تغيير غذائي يُنسّق مع طبيبك؛ راقب السكر ولا تخفّض الجرعات وحدك.</p>');
   }
-  if (health.includes("kidney")) {
-    lines.push("<p class="warn">أمراض الكلى/الغسيل: قيود البروتين والبوتاسيوم والسوائل طبية صارمة؛ لا تعتمد قائمة عامة من الإنترنت.</p>");
-  }
-
-  if (status === "follow" || status === "tried") {
-    lines.push("<p>إن كنت مطبّقاً: سجّل الأعراض والوزن والسكر إن وُجد، ولا تؤخر مراجعة الطوارئ عند دوخة شديدة أو قيء أو نفس سريع أو ألم صدر.</p>");
+  if (health.includes('kidney')) {
+    lines.push('<p class="warn">أمراض الكلى أو الغسيل: قيود البروتين والبوتاسيوم والسوائل طبية صارمة؛ لا تعتمد قائمة عامة من الإنترنت.</p>');
   }
 
-  lines.push("<p class="mute">هذا ملخص تعليمي من بوابات Congress+ وسجل الوفيات المسمّاة على هذه الصفحة. ليس تشخيصاً وليس بديلاً عن استشارة طبية.</p>");
-  return lines.join("\n");
+  if (status === 'follow' || status === 'tried') {
+    lines.push('<p>إن كنت مطبّقاً: سجّل الأعراض والوزن والسكر إن وُجد، ولا تؤخر الطوارئ عند دوخة شديدة أو قيء أو تنفّس سريع أو ألم في الصدر.</p>');
+  }
+
+  lines.push('<p class="mute">ملخص تعليمي من بوابات Congress+ وسجل الوفيات المسمّاة في هذه الصفحة. ليس تشخيصاً وليس بديلاً عن استشارة طبية.</p>');
+  return lines.join('\n');
 }
 
 function renderSurvey() {
-  const form = document.getElementById("survey-form");
-  const out = document.getElementById("survey-out");
+  const form = document.getElementById('survey-form');
+  const out = document.getElementById('survey-out');
   if (!form) return;
   form.innerHTML = SURVEY.map((q) => {
-    const type = q.multi ? "checkbox" : "radio";
-    return `<fieldset class="sq" data-id="${q.id}">
-      <legend>${q.q}</legend>
-      ${q.opts.map((o) => `
-        <label class="so">
-          <input type="${type}" name="${q.id}" value="${o.id}" />
-          <span>${o.t}</span>
-        </label>`).join("")}
-    </fieldset>`;
-  }).join("") + `<button type="submit" class="sbtn">احسب المطابقة واعرض النصيحة</button>`;
+    const type = q.multi ? 'checkbox' : 'radio';
+    return '<fieldset class="sq" data-id="' + q.id + '">' +
+      '<legend>' + q.q + '</legend>' +
+      q.opts.map((o) =>
+        '<label class="so"><input type="' + type + '" name="' + q.id + '" value="' + o.id + '" /><span>' + o.t + '</span></label>'
+      ).join('') +
+      '</fieldset>';
+  }).join('') + '<button type="submit" class="sbtn">احسب المطابقة واعرض النصيحة</button>';
 
   form.onsubmit = (e) => {
     e.preventDefault();
     const answers = {};
     SURVEY.forEach((q) => {
-      answers[q.id] = [...form.querySelectorAll(`input[name="${q.id}"]:checked`)].map((el) => el.value);
+      answers[q.id] = Array.prototype.slice.call(form.querySelectorAll('input[name="' + q.id + '"]:checked')).map((el) => el.value);
     });
     const sc = scoreSurvey(answers);
-    out.innerHTML = `<article class="sresult">${buildAdvice(answers, sc)}</article>`;
-    out.scrollIntoView({ behavior: "smooth", block: "start" });
+    out.innerHTML = '<article class="sresult">' + buildAdvice(answers, sc) + '</article>';
+    out.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 }
 
