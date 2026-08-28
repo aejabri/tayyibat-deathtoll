@@ -31,11 +31,12 @@ function renderStats() {
   $("stats").innerHTML = state.data.supportingStats.map((s) => `
     <article class="stat"><b>${s.stat}</b><span>${s.label}</span><div><a href="${s.url}" target="_blank" rel="noopener">${s.source}</a></div></article>`).join("");
 }
+const CAT_AR = { aswritten: "تطبيق النص", misread: "فهم مغلوط", disputed: "سبب غير محسوم", icu: "عناية مركزة" };
 function renderLog() {
   const rows = state.data.cases.filter((c) => state.filter === "all" || c.category === state.filter).sort((a, b) => b.date.localeCompare(a.date));
   $("log").innerHTML = rows.map((c) => `
     <article class="card">
-      <div class="meta"><span>${c.date}</span><span>${c.category}</span><span>${c.fatalities} وفيات</span><span class="grade">GRADE ${c.grade}</span><span>${c.status}</span></div>
+      <div class="meta"><span>${c.date}</span><span>${CAT_AR[c.category] || c.category}</span><span>${c.fatalities} وفاة</span><span class="grade">درجة ${c.grade}</span><span>${c.status}</span></div>
       <h3>${c.title}</h3><p>${c.summary}</p>
       <p style="margin-top:8px;color:#9a8882">${c.location}</p>
       <div class="sources">${c.sources.map((s) => `<a href="${s.url}" target="_blank" rel="noopener">↗ ${s.name}</a>`).join("")}</div>
@@ -44,10 +45,10 @@ function renderLog() {
 function renderHeads() {
   const L = lanes();
   const cards = [
-    { id: "written", name: "AS-WRITTEN", sub: "كما نُشر النص", hint: "إيقاف دواء أو رفض علاج كما نُصح به علناً.", n: L.written },
-    { id: "misread", name: "MISREAD", sub: "سوء الفهم", hint: "تطبيق مشوّه. لا وفيات مسمّاة موثّقة حتى الآن.", n: L.misread },
-    { id: "disputed", name: "DISPUTED", sub: "محل نزاع", hint: "وفاة المؤسس. التقرير: جلطة. ليست في الأرضية إلا بالخيار.", n: state.includeFounder ? L.disputed : catSum(["disputed"]) },
-    { id: "floor", name: "LINKED FLOOR", sub: "الأرضية", hint: "مجموع المسمّين بلا تكرار.", n: L.floor }
+    { id: "written", name: "تطبيق النص", sub: "فعل ما قاله النظام علناً", hint: "أوقف الإنسولين أو الدواء، أو رفض الغسيل والقسطرة، كما نُصح به في المحتوى المنشور.", n: L.written },
+    { id: "misread", name: "فهم مغلوط", sub: "طبّق غير ما ثبت في النص", hint: "حرمان زائد أو قائمة محرّفة. لا وفاة مسمّاة موثّقة في هذا الباب حتى الآن.", n: L.misread },
+    { id: "disputed", name: "سبب غير محسوم", sub: "وفاة المؤسس", hint: "جلطة في دبي. التقرير الرسمي لا ينسبها للحمية. لا تدخل الحد الأدنى إلا إذا فعّلت الخيار أعلاه.", n: state.includeFounder ? L.disputed : catSum(["disputed"]) },
+    { id: "floor", name: "الحد الأدنى الموثَّق", sub: "جمع الحالات المسمّاة", hint: "ليس سقفاً ولا حصراً وزارياً. فقط من له اسم أو وصف في خبر يمكن فتح رابطه.", n: L.floor }
   ];
   $("heads").innerHTML = cards.map((h) => `
     <article class="head ${h.id}">
@@ -60,9 +61,9 @@ function renderHeads() {
 function renderHeadline() {
   const total = lanes().floor;
   animateCount($("headline-count"), total);
-  $("headline-label").textContent = "الأرضية الموثّقة";
+  $("headline-label").textContent = "الحد الأدنى الموثَّق";
   $("headline-note").textContent = state.data.headline.note;
-  $("headline-range").textContent = `FLOOR ${pad(total)}  ·  NAMED CASES ONLY`;
+  $("headline-range").textContent = `الحد الأدنى ${pad(total)}  ·  حالات مسمّاة فقط`;
   renderHeads();
 }
 function toastEmerging() {
@@ -70,7 +71,7 @@ function toastEmerging() {
     setTimeout(() => {
       const t = document.createElement("div");
       t.className = "toast";
-      t.innerHTML = `<b>+ ${c.short}</b><span>${c.count} counted</span>`;
+      t.innerHTML = `<b>+ ${c.short}</b><span>${c.count} حالة في السجل</span>`;
       $("toast-layer").appendChild(t);
       setTimeout(() => t.remove(), 4200);
     }, 900 + i * 1400);
@@ -78,7 +79,7 @@ function toastEmerging() {
 }
 async function boot() {
   state.data = window.TOLL;
-  $("as-of").textContent = "AS OF " + state.data.asOf;
+  $("as-of").textContent = "حتى " + state.data.asOf;
   $("disclaimer").textContent = state.data.meta.disclaimer;
   renderHeadline(); renderCats(); renderStats(); renderLog(); toastEmerging();
   const tick = () => { $("clock").textContent = new Date().toISOString().replace("T", " ").slice(0, 19) + "Z"; };

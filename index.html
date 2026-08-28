@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>عداد وفيات نظام الطيبات — Tayyibat Deathtoll</title>
+  <title>عداد وفيات نظام الطيبات</title>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
@@ -11,29 +11,29 @@
   <div class="scanlines"></div>
   <div id="toast-layer"></div>
   <header class="topbar">
-    <div class="brand"><span class="pulse-dot"></span><span>نظام الطيبات · DEATHTOLL</span></div>
+    <div class="brand"><span class="pulse-dot"></span><span>عداد وفيات نظام الطيبات</span></div>
     <div class="top-meta"><span id="as-of"></span><span id="clock"></span></div>
   </header>
   <main>
     <section class="hero">
-      <p class="eyebrow">وفيات مرتبطة علناً · ليست سببية قضائية مثبتة</p>
-      <div class="counter-label" id="headline-label">الأرضية الموثّقة</div>
+      <p class="eyebrow">وفيات وردت في أخبار موثوقة — ليست حكماً بأن النظام قتلهم قضاءً</p>
+      <div class="counter-label" id="headline-label">الحد الأدنى الموثَّق</div>
       <div class="counter" id="headline-count">0</div>
       <div class="range" id="headline-range"></div>
       <p class="hero-note" id="headline-note"></p>
-      <label class="toggle"><input type="checkbox" id="include-founder" /> أضف وفاة المؤسس (محل نزاع) إلى الأرضية</label>
+      <label class="toggle"><input type="checkbox" id="include-founder" /> أدخل وفاة المؤسس في الحد الأدنى (سببها غير محسوم)</label>
       <div class="heads" id="heads"></div>
     </section>
     <section class="cats" id="cats"></section>
     <section class="stats"><h2>الإحصاء خلف الرقم</h2><div class="stat-grid" id="stats"></div></section>
     <section class="method">
-      <h2>كيف يُبنى الرقم</h2>
+      <h2>معنى الأرقام الأربعة</h2>
       <p id="disclaimer"></p>
       <ul>
-        <li><strong>كما نُشر</strong> — تنفيذ نصيحة معلنة: إيقاف الإنسولين/الدواء أو رفض الغسيل والقسطرة.</li>
-        <li><strong>سوء الفهم</strong> — تطبيق مشوّه للقائمة أو حرمان زائد بلا دليل أن النص أمر بذلك.</li>
-        <li><strong>محل نزاع</strong> — وفاة ضياء العوضي بجلطة. التقرير الرسمي لا ينسبها للنظام.</li>
-        <li><strong>الأرضية</strong> — مجموع المسمّين بخبر موثّق. لا اختراع لأرقام وزارية غير منشورة.</li>
+        <li><strong>تطبيق النص</strong> — مات الشخص بعد أن فعل ما قاله النظام علناً: أوقف الإنسولين أو الدواء، أو رفض الغسيل والقسطرة.</li>
+        <li><strong>فهم مغلوط</strong> — مات بعد أن حرّف القائمة أو شدّد على نفسه بما لم يثبت أن النص أمر به. حتى الآن لا توجد حالة مسمّاة في هذا الباب.</li>
+        <li><strong>سبب غير محسوم</strong> — وفاة ضياء العوضي بجلطة في دبي. التقرير الرسمي يقول وفاة طبيعية. لا ندخلها في الحد الأدنى إلا إذا طلبت ذلك.</li>
+        <li><strong>الحد الأدنى الموثَّق</strong> — جمع الحالات المسمّاة في خبر يمكن فتح رابطه. ليس حصراً وزارياً، وليس سقفاً، وليس حكماً قضائياً.</li>
       </ul>
     </section>
     <section class="log">
@@ -41,16 +41,16 @@
         <h2>سجل الأدلة</h2>
         <div class="filters">
           <button class="chip active" data-filter="all">الكل</button>
-          <button class="chip" data-filter="aswritten">كما نُشر</button>
-          <button class="chip" data-filter="misread">سوء فهم</button>
-          <button class="chip" data-filter="disputed">نزاع</button>
+          <button class="chip" data-filter="aswritten">تطبيق النص</button>
+          <button class="chip" data-filter="misread">فهم مغلوط</button>
+          <button class="chip" data-filter="disputed">غير محسوم</button>
           <button class="chip" data-filter="icu">عناية مركزة</button>
         </div>
       </div>
       <div id="log"></div>
     </section>
   </main>
-  <footer>دفتر علني. حدّث <code>toll.js</code>. ليس بديلاً عن طبيب.</footer>
+  <footer>سجل علني للحالات المسمّاة. حدّث الملف <code>toll.js</code>. هذا الموقع لا يغني عن طبيب.</footer>
   <script src="toll.js"></script>
   <script src="app.js"></script>
 </body>
