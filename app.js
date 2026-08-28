@@ -32,7 +32,6 @@ function renderStats() {
     <article class="stat"><b>${s.stat}</b><span>${s.label}</span><div><a href="${s.url}" target="_blank" rel="noopener">${s.source}</a></div></article>`).join("");
 }
 const CAT_AR = { aswritten: "تطبيق النص", misread: "فهم مغلوط", disputed: "سبب غير محسوم", icu: "عناية مركزة" };
-
 function renderLog() {
   const rows = state.data.cases.filter((c) => state.filter === "all" || c.category === state.filter).sort((a, b) => b.date.localeCompare(a.date));
   $("log").innerHTML = rows.map((c) => `
@@ -46,10 +45,10 @@ function renderLog() {
 function renderHeads() {
   const L = lanes();
   const cards = [
-    { id: "written", name: "تطبيق النص", en: "AS-WRITTEN", sub: "فعل ما نُشر باسم النظام", hint: "أوقف الإنسولين أو الدواء، أو رفض الغسيل والقسطرة، كما ظهر في المحتوى العلني.", n: L.written },
-    { id: "misread", name: "فهم مغلوط", en: "MISREAD", sub: "طبّق غير ما ثبت في النص", hint: "تحريف للقائمة أو تشديد زائد. لا وفاة مسمّاة موثّقة في هذا الباب حتى الآن، لذلك الرقم صفر.", n: L.misread },
-    { id: "disputed", name: "سبب غير محسوم", en: "DISPUTED", sub: "وفاة المؤسس", hint: "جلطة في دبي. التقرير الرسمي لا ينسبها للحمية. تظهر في البطاقة، ولا تدخل المجموع الكبير إلا إذا فعّلت الخيار.", n: state.includeFounder ? L.disputed : catSum(["disputed"]) },
-    { id: "floor", name: "الحد الأدنى الموثَّق", en: "DOCUMENTED FLOOR", sub: "أقل رقم يمكن الدفاع عنه اليوم", hint: "«الأرضية» = حد أدنى لا سقف. جمع الوفيات المسمّاة في خبر مفتوح الرابط، بلا تكرار. ليست حصراً وزارياً وليست حكماً قضائياً.", n: L.floor }
+    { id: "written", name: "تطبيق النص", en: "AS-WRITTEN", sub: "فعل ما نُشر باسم النظام", hint: "أوقف الإنسولين أو الدواء، أو رفض الغسيل والقسطرة.", n: L.written },
+    { id: "misread", name: "فهم مغلوط", en: "MISREAD", sub: "طبّق غير ما ثبت في النص", hint: "لا وفاة مسمّاة في هذا الباب حتى الآن.", n: L.misread },
+    { id: "disputed", name: "سبب غير محسوم", en: "DISPUTED", sub: "وفاة المؤسس", hint: "التقرير الرسمي لا ينسبها للحمية.", n: state.includeFounder ? L.disputed : catSum(["disputed"]) },
+    { id: "floor", name: "الحد الأدنى الموثَّق", en: "DOCUMENTED FLOOR", sub: "أقل رقم يمكن الدفاع عنه اليوم", hint: "حد أدنى لا سقف. حالات مسمّاة في خبر مفتوح الرابط.", n: L.floor }
   ];
   $("heads").innerHTML = cards.map((h) => `
     <article class="head ${h.id}">
