@@ -45,10 +45,10 @@ function renderLog() {
 function renderHeads() {
   const L = lanes();
   const cards = [
-    { id: "written", name: "تطبيق النص", en: "AS-WRITTEN", sub: "فعل ما نُشر باسم النظام", hint: "أوقف الإنسولين أو الدواء، أو رفض الغسيل والقسطرة.", n: L.written },
-    { id: "misread", name: "فهم مغلوط", en: "MISREAD", sub: "طبّق غير ما ثبت في النص", hint: "لا وفاة مسمّاة في هذا الباب حتى الآن.", n: L.misread },
-    { id: "disputed", name: "سبب غير محسوم", en: "DISPUTED", sub: "وفاة المؤسس", hint: "التقرير الرسمي لا ينسبها للحمية.", n: state.includeFounder ? L.disputed : catSum(["disputed"]) },
-    { id: "floor", name: "الحد الأدنى الموثَّق", en: "DOCUMENTED FLOOR", sub: "أقل رقم يمكن الدفاع عنه اليوم", hint: "حد أدنى لا سقف. حالات مسمّاة في خبر مفتوح الرابط.", n: L.floor }
+    { id: "written", name: "تطبيق النص", en: "AS-WRITTEN", sub: "فعل ما نُشر باسم النظام", hint: "إيقاف إنسولين أو دواء، أو رفض غسيل وقسطرة.", n: L.written },
+    { id: "misread", name: "فهم مغلوط", en: "MISREAD", sub: "طبّق غير ما ثبت في النص", hint: "لا وفاة مسمّاة هنا حتى الآن. باب تحويل إن ثبت التحريف.", n: L.misread },
+    { id: "disputed", name: "سبب غير محسوم", en: "DISPUTED", sub: "وفاة المؤسس", hint: "التقرير الرسمي: وفاة طبيعية. خارج الحد الأدنى إلا بالخيار.", n: state.includeFounder ? L.disputed : catSum(["disputed"]) },
+    { id: "floor", name: "الحد الأدنى الموثَّق", en: "DOCUMENTED FLOOR", sub: "أقل رقم يمكن الدفاع عنه اليوم", hint: "حالات مسمّاة في خبر مفتوح الرابط. ليس سقفاً.", n: L.floor }
   ];
   $("heads").innerHTML = cards.map((h) => `
     <article class="head ${h.id}">
@@ -63,7 +63,7 @@ function renderHeadline() {
   animateCount($("headline-count"), total);
   $("headline-label").textContent = "الحد الأدنى الموثَّق · DOCUMENTED FLOOR";
   $("headline-note").textContent = state.data.headline.note;
-  $("headline-range").textContent = `الأرضية = الحد الأدنى ${pad(total)}  ·  ليست سقفاً  ·  حالات مسمّاة فقط`;
+  $("headline-range").textContent = "حد أدنى " + pad(total) + " حالات مسمّاة  ·  ليست سقفاً  ·  ليست حكماً أن النظام قتلهم";
   renderHeads();
 }
 function toastEmerging() {
