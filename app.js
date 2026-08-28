@@ -83,6 +83,7 @@ async function boot() {
   $("as-of").textContent = "حتى " + state.data.asOf;
   $("disclaimer").textContent = state.data.meta.disclaimer;
   renderHeadline(); renderCats(); renderStats(); renderLog(); toastEmerging();
+  if (window.renderSurvey) renderSurvey();
   const tick = () => { $("clock").textContent = new Date().toISOString().replace("T", " ").slice(0, 19) + "Z"; };
   tick(); setInterval(tick, 1000);
   document.querySelectorAll(".chip").forEach((btn) => {
