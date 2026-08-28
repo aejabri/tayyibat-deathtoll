@@ -16,7 +16,8 @@ main { max-width:1100px; margin:0 auto; padding:28px 18px 80px; }
 .toggle { display:inline-flex; gap:8px; align-items:center; margin-top:18px; color:#e0cfc8; font-size:14px; }
 .heads { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:28px; text-align:right; }
 .head { background:#100606; border:1px solid var(--line); padding:14px 12px; }
-.head-name { font-family:"Share Tech Mono",monospace; font-size:11px; letter-spacing:0.1em; color:var(--amber); }
+.head-name { font-family:"IBM Plex Sans Arabic",system-ui,sans-serif; font-size:14px; font-weight:700; color:var(--amber); display:flex; justify-content:space-between; align-items:baseline; gap:8px; flex-wrap:wrap; }
+.en-tag { font-family:"Share Tech Mono",monospace; font-size:10px; letter-spacing:0.12em; color:#9a8882; font-weight:400; }
 .head-n { font-family:"Share Tech Mono",monospace; font-size:clamp(28px,4vw,42px); color:var(--red); margin:6px 0 4px; }
 .head-sub { font-size:13px; color:#f0e4e0; }
 .head p { margin:8px 0 0; color:var(--mute); font-size:12px; }
