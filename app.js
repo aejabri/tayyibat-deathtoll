@@ -32,6 +32,7 @@ function renderStats() {
     <article class="stat"><b>${s.stat}</b><span>${s.label}</span><div><a href="${s.url}" target="_blank" rel="noopener">${s.source}</a></div></article>`).join("");
 }
 const CAT_AR = { aswritten: "تطبيق النص", misread: "فهم مغلوط", disputed: "سبب غير محسوم", icu: "عناية مركزة" };
+
 function renderLog() {
   const rows = state.data.cases.filter((c) => state.filter === "all" || c.category === state.filter).sort((a, b) => b.date.localeCompare(a.date));
   $("log").innerHTML = rows.map((c) => `
@@ -45,14 +46,14 @@ function renderLog() {
 function renderHeads() {
   const L = lanes();
   const cards = [
-    { id: "written", name: "تطبيق النص", sub: "فعل ما قاله النظام علناً", hint: "أوقف الإنسولين أو الدواء، أو رفض الغسيل والقسطرة، كما نُصح به في المحتوى المنشور.", n: L.written },
-    { id: "misread", name: "فهم مغلوط", sub: "طبّق غير ما ثبت في النص", hint: "حرمان زائد أو قائمة محرّفة. لا وفاة مسمّاة موثّقة في هذا الباب حتى الآن.", n: L.misread },
-    { id: "disputed", name: "سبب غير محسوم", sub: "وفاة المؤسس", hint: "جلطة في دبي. التقرير الرسمي لا ينسبها للحمية. لا تدخل الحد الأدنى إلا إذا فعّلت الخيار أعلاه.", n: state.includeFounder ? L.disputed : catSum(["disputed"]) },
-    { id: "floor", name: "الحد الأدنى الموثَّق", sub: "جمع الحالات المسمّاة", hint: "ليس سقفاً ولا حصراً وزارياً. فقط من له اسم أو وصف في خبر يمكن فتح رابطه.", n: L.floor }
+    { id: "written", name: "تطبيق النص", en: "AS-WRITTEN", sub: "فعل ما نُشر باسم النظام", hint: "أوقف الإنسولين أو الدواء، أو رفض الغسيل والقسطرة، كما ظهر في المحتوى العلني.", n: L.written },
+    { id: "misread", name: "فهم مغلوط", en: "MISREAD", sub: "طبّق غير ما ثبت في النص", hint: "تحريف للقائمة أو تشديد زائد. لا وفاة مسمّاة موثّقة في هذا الباب حتى الآن، لذلك الرقم صفر.", n: L.misread },
+    { id: "disputed", name: "سبب غير محسوم", en: "DISPUTED", sub: "وفاة المؤسس", hint: "جلطة في دبي. التقرير الرسمي لا ينسبها للحمية. تظهر في البطاقة، ولا تدخل المجموع الكبير إلا إذا فعّلت الخيار.", n: state.includeFounder ? L.disputed : catSum(["disputed"]) },
+    { id: "floor", name: "الحد الأدنى الموثَّق", en: "DOCUMENTED FLOOR", sub: "أقل رقم يمكن الدفاع عنه اليوم", hint: "«الأرضية» = حد أدنى لا سقف. جمع الوفيات المسمّاة في خبر مفتوح الرابط، بلا تكرار. ليست حصراً وزارياً وليست حكماً قضائياً.", n: L.floor }
   ];
   $("heads").innerHTML = cards.map((h) => `
     <article class="head ${h.id}">
-      <div class="head-name">${h.name}</div>
+      <div class="head-name">${h.name}<span class="en-tag">${h.en}</span></div>
       <div class="head-n">${pad(h.n)}</div>
       <div class="head-sub">${h.sub}</div>
       <p>${h.hint}</p>
@@ -61,9 +62,9 @@ function renderHeads() {
 function renderHeadline() {
   const total = lanes().floor;
   animateCount($("headline-count"), total);
-  $("headline-label").textContent = "الحد الأدنى الموثَّق";
+  $("headline-label").textContent = "الحد الأدنى الموثَّق · DOCUMENTED FLOOR";
   $("headline-note").textContent = state.data.headline.note;
-  $("headline-range").textContent = `الحد الأدنى ${pad(total)}  ·  حالات مسمّاة فقط`;
+  $("headline-range").textContent = `الأرضية = الحد الأدنى ${pad(total)}  ·  ليست سقفاً  ·  حالات مسمّاة فقط`;
   renderHeads();
 }
 function toastEmerging() {

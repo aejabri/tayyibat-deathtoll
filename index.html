@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>عداد وفيات نظام الطيبات</title>
+  <title>عداد وفيات نظام الطيبات — Tayyibat Deathtoll</title>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
@@ -11,29 +11,29 @@
   <div class="scanlines"></div>
   <div id="toast-layer"></div>
   <header class="topbar">
-    <div class="brand"><span class="pulse-dot"></span><span>عداد وفيات نظام الطيبات</span></div>
+    <div class="brand"><span class="pulse-dot"></span><span>نظام الطيبات · DEATHTOLL</span></div>
     <div class="top-meta"><span id="as-of"></span><span id="clock"></span></div>
   </header>
   <main>
     <section class="hero">
-      <p class="eyebrow">وفيات وردت في أخبار موثوقة — ليست حكماً بأن النظام قتلهم قضاءً</p>
-      <div class="counter-label" id="headline-label">الحد الأدنى الموثَّق</div>
+      <p class="eyebrow">وفيات ورد اسمها أو وصفها في خبر يمكن فتح رابطه — ليست حكماً قضائياً بأن النظام قتلهم</p>
+      <div class="counter-label" id="headline-label">الحد الأدنى الموثَّق · DOCUMENTED FLOOR</div>
       <div class="counter" id="headline-count">0</div>
       <div class="range" id="headline-range"></div>
       <p class="hero-note" id="headline-note"></p>
-      <label class="toggle"><input type="checkbox" id="include-founder" /> أدخل وفاة المؤسس في الحد الأدنى (سببها غير محسوم)</label>
+      <label class="toggle"><input type="checkbox" id="include-founder" /> أدخل وفاة المؤسس داخل الحد الأدنى (سبب الوفاة غير محسوم رسمياً)</label>
       <div class="heads" id="heads"></div>
     </section>
     <section class="cats" id="cats"></section>
     <section class="stats"><h2>الإحصاء خلف الرقم</h2><div class="stat-grid" id="stats"></div></section>
     <section class="method">
-      <h2>معنى الأرقام الأربعة</h2>
+      <h2>معنى الأرقام الأربعة — بلا لبس</h2>
       <p id="disclaimer"></p>
       <ul>
-        <li><strong>تطبيق النص</strong> — مات الشخص بعد أن فعل ما قاله النظام علناً: أوقف الإنسولين أو الدواء، أو رفض الغسيل والقسطرة.</li>
-        <li><strong>فهم مغلوط</strong> — مات بعد أن حرّف القائمة أو شدّد على نفسه بما لم يثبت أن النص أمر به. حتى الآن لا توجد حالة مسمّاة في هذا الباب.</li>
-        <li><strong>سبب غير محسوم</strong> — وفاة ضياء العوضي بجلطة في دبي. التقرير الرسمي يقول وفاة طبيعية. لا ندخلها في الحد الأدنى إلا إذا طلبت ذلك.</li>
-        <li><strong>الحد الأدنى الموثَّق</strong> — جمع الحالات المسمّاة في خبر يمكن فتح رابطه. ليس حصراً وزارياً، وليس سقفاً، وليس حكماً قضائياً.</li>
+        <li><strong>تطبيق النص / AS-WRITTEN</strong> — مات الشخص بعد أن فعل ما نُشر علناً باسم النظام: أوقف الإنسولين أو الدواء، أو رفض الغسيل والقسطرة. هذا ليس حكماً بأن النص «هو القاتل» قضاءً؛ هو تصنيف للفعل المنشور.</li>
+        <li><strong>فهم مغلوط / MISREAD</strong> — مات بعد أن حرّف القائمة أو شدّد على نفسه بما لم يثبت أن النص أمر به. حتى الآن لا توجد حالة مسمّاة في هذا الباب، لذلك رقمه صفر.</li>
+        <li><strong>سبب غير محسوم / DISPUTED</strong> — وفاة ضياء العوضي بجلطة في دبي. التقرير الرسمي: وفاة طبيعية. لا تدخل الحد الأدنى إلا إذا فعّلت الخيار أعلاه.</li>
+        <li><strong>الحد الأدنى الموثَّق / DOCUMENTED FLOOR</strong> — «الأرضية» هنا ليست بلاط مبنى ولا سقفاً أعلى. هي أقل رقم يمكن الدفاع عنه اليوم: جمع الوفيات المسمّاة أو الموصوفة في خبر مفتوح الرابط، بلا تكرار. ليست حصراً وزارياً، وليست حكماً قضائياً، وليست العدد الحقيقي الكامل.</li>
       </ul>
     </section>
     <section class="log">
